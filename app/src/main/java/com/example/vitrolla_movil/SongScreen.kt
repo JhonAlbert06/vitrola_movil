@@ -111,7 +111,7 @@ fun ImageCard(
                     Row {
                         Text(song.artist, style = TextStyle(color = Color.Cyan, fontSize = 16.sp ))
                         Spacer(modifier = Modifier.width(16.dp))
-                        Text(song.genre, style = TextStyle(color = Color.White, fontSize = 16.sp ))
+                        Text(song.genre, style = TextStyle(color = Color.Cyan, fontSize = 16.sp ))
                     }
                     Text(title, style = TextStyle(color = Color.Red, fontSize = 16.sp, fontWeight = FontWeight.Bold ))
                 }
