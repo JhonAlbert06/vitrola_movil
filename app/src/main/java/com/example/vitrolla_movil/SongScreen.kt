@@ -5,13 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,13 +18,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.vitrolla_movil.data.SongDto
+import okio.IOException
 
 @Composable
 fun SongScreen(
     viewModel:SongViewModel = hiltViewModel()
 ){
-    Scaffold(topBar = { TopBar() }) {
+    var scaffoldState = rememberScaffoldState() // this contains the `SnackbarHostState`
+    val coroutineScope = rememberCoroutineScope()
+
+    Scaffold(scaffoldState = scaffoldState, topBar = { TopBar() }) {
         val state by viewModel.uiState.collectAsState()
         Column(
             modifier = Modifier
@@ -51,16 +51,19 @@ fun SongScreen(
                         .padding(16.dp)
                     ){
                         ImageCard(
-                            painter = painterResource(id = returnImg(song.name)),
+                            painter = painterResource(id =  returnImg(song.name)),
                             contentDescription = "Image",
                             title = song.name,
-                            // Se pasa el song que se lista
                             song = song,
-                            //On click post
-                            ) {
+                            onClick = { try {
+                                viewModel.createSong(song)
+                            } catch (ioe: IOException){
+                                viewModel.message = ioe.toString();
+                            } }
+                        )
 
-                        }
-
+                        if (!viewModel.istrue)
+                            showMesseage(message = viewModel.message, scaffoldState = scaffoldState)
                     }
 
                     Divider(
@@ -70,7 +73,6 @@ fun SongScreen(
                         color = Color.White
                     )
 
-
                 }
             }
         }
@@ -78,6 +80,18 @@ fun SongScreen(
 }
 
 
+@Composable
+fun showMesseage(message: String, scaffoldState: ScaffoldState) {
+    LaunchedEffect(scaffoldState.snackbarHostState) {
+        scaffoldState.snackbarHostState.showSnackbar(
+            message = message,
+            actionLabel = "Añade otra Mas"
+        )
+    }
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ImageCard(
     painter: Painter,
@@ -91,7 +105,7 @@ fun ImageCard(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp,
-        // OnClick
+        onClick = onClick
     ){
         Box(modifier = Modifier
             .height(200.dp)
@@ -120,7 +134,6 @@ fun ImageCard(
         }
     }
 }
-
 
 fun returnImg(name: String): Int {
 
@@ -163,7 +176,6 @@ fun returnImg(name: String): Int {
     if (name == "Livin' on a Prayer"){
         return R.drawable.livin__on_a_prayer
     }
-
 
     return R.drawable.bohemian_rhapsody
 }

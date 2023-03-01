@@ -2,6 +2,7 @@ package com.example.vitrolla_movil.data
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okio.IOException
 import javax.inject.Inject
 
 class SongRepositori @Inject constructor(
@@ -11,6 +12,13 @@ class SongRepositori @Inject constructor(
         return withContext(Dispatchers.IO){
             val resonse = api.getSongs()
             resonse.body()?: emptyList()
+        }
+    }
+
+    suspend fun createSong(song: SongDto): SongDto? {
+        return withContext(Dispatchers.IO) {
+            val res = api.createSong(song)
+            res.body()
         }
     }
 }
