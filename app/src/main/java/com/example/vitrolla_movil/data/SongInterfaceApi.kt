@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface SongInterfaceApi {
 
-    @GET("")
+    @GET("/Songs")
     suspend fun getSongs(): Response<List<SongDto>>
 }
