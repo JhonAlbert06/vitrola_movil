@@ -62,8 +62,10 @@ fun SongScreen(
                             } }
                         )
 
-                        if (!viewModel.istrue)
+                        if (!viewModel.istrue){
                             showMesseage(message = viewModel.message, scaffoldState = scaffoldState)
+                        }
+
                     }
 
                     Divider(
