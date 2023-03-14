@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -136,49 +135,4 @@ fun ImageCard(
             }
         }
     }
-}
-
-fun returnImg(name: String): Int {
-
-    if (name == "Bohemian Rhapsody"){
-        return R.drawable.bohemian_rhapsody
-    }
-
-    if (name == "Stairway to Heaven"){
-        return R.drawable.stairway_to_heaven
-    }
-
-    if (name == "Hotel California"){
-        return R.drawable.hotel_california
-    }
-
-    if (name == "November Rain"){
-        return R.drawable.november_rain
-    }
-
-    if (name == "Don't Stop Believin'"){
-        return R.drawable.don_t_stop_believin_
-    }
-
-    if (name == "Sweet Child o' Mine"){
-        return R.drawable.sweet_child_o__mine
-    }
-
-    if (name == "Free Bird"){
-        return R.drawable.free_bird
-    }
-
-    if (name == "Dream On"){
-        return R.drawable.dream_on
-    }
-
-    if (name == "Knockin' on Heaven's Door"){
-        return R.drawable.knockin__on_heaven_s_door
-    }
-
-    if (name == "Livin' on a Prayer"){
-        return R.drawable.livin__on_a_prayer
-    }
-
-    return R.drawable.bohemian_rhapsody
 }
