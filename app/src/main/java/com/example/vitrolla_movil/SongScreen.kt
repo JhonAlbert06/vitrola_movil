@@ -47,8 +47,8 @@ fun SongScreen(
                 items(state.songs){ song ->
 
                     Box(modifier = Modifier
-                        .fillMaxWidth(0.90f)
-                        .padding(16.dp)
+                        .fillMaxWidth(0.98f)
+                        .padding(8.dp)
                     ){
                         ImageCard(
                             painter = painterResource(id =  returnImg(song.name)),
