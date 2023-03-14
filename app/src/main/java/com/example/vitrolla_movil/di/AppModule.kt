@@ -27,7 +27,7 @@ object AppModule {
     @Provides
     fun providesApi(moshi: Moshi): SongInterfaceApi {
         return Retrofit.Builder()
-            .baseUrl("http://172.16.19.213:8000")
+            .baseUrl("192.168.1.20:8000")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
             .create(SongInterfaceApi::class.java)
