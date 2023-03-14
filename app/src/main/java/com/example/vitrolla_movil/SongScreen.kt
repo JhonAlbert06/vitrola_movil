@@ -18,16 +18,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.example.vitrolla_movil.data.SongDto
 import okio.IOException
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun SongScreen(
     viewModel:SongViewModel = hiltViewModel()
 ){
-    var scaffoldState = rememberScaffoldState() // this contains the `SnackbarHostState`
-    val coroutineScope = rememberCoroutineScope()
+    val scaffoldState = rememberScaffoldState() // this contains the `SnackbarHostState`
 
     Scaffold(scaffoldState = scaffoldState, topBar = { TopBar() }) {
         val state by viewModel.uiState.collectAsState()
@@ -51,19 +52,19 @@ fun SongScreen(
                         .padding(8.dp)
                     ){
                         ImageCard(
-                            painter = painterResource(id =  returnImg(song.name)),
+                            painter = rememberImagePainter("http://192.168.1.20:8000/public/images/${song.name}.jpeg"),
                             contentDescription = "Image",
                             title = song.name,
                             song = song,
                             onClick = { try {
                                 viewModel.createSong(song)
                             } catch (ioe: IOException){
-                                viewModel.message = ioe.toString();
+                                viewModel.message = ioe.toString()
                             } }
                         )
 
                         if (!viewModel.istrue){
-                            showMesseage(message = viewModel.message, scaffoldState = scaffoldState)
+                            ShowMesseage(message = viewModel.message, scaffoldState = scaffoldState)
                         }
 
                     }
@@ -83,7 +84,7 @@ fun SongScreen(
 
 
 @Composable
-fun showMesseage(message: String, scaffoldState: ScaffoldState) {
+fun ShowMesseage(message: String, scaffoldState: ScaffoldState) {
     LaunchedEffect(scaffoldState.snackbarHostState) {
         scaffoldState.snackbarHostState.showSnackbar(
             message = message,
